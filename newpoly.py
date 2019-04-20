@@ -15,12 +15,13 @@ def new_poly(x, y):
         for j in range(i, n):
             fac = x[j] - x[j-i]
             d[j, i] = (d[j, i-1]-d[j-1, i-1])/fac
-    print(d)
     c = d[n-1, n-1]
-    for i in range(n-1, 0, -1):
-        c = np.polymul(c, np.poly1d([1.0, -x[i]]))
-        m = len(c)
-        c[m-1] += d[i, i]
+    for k in range(n-2, -1, -1):
+        c = np.polymul(c, np.poly1d([1.0, -x[k]]))
+        s = d[k, k]
+        c[0] += s  # python是按指数递增排序系数（哭了哭了/哭了）
+    print(c)
+    print(d)
     return c
 
 
@@ -36,7 +37,7 @@ def main():
     for i in x:
         y.append(math.cos(i))
     p = new_poly(x, y)
-    print(p)
+    print('P' + str(len(x) - 1) + '(' + str(a) + ')=', end='')
     print('%.6f' % np.polyval(p, a))
     """
     【样例1输出】

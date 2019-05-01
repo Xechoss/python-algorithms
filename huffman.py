@@ -4,19 +4,6 @@
             在程序开始说明部分，简要描述使用贪心算法求解Huffman编码问题的算法过程。
 【输入形式】在屏幕上输入字符个数和每个字符的频率。
 【输出形式】每个字符的Huffman编码。
-【样例输入】
- 6
- 45 13 12 16 9 5
-【样例输出】
-a 0
-b 101
-c 100
-d 111
-e 1101
-f 1100
-【样例说明】
- 输入：字符个数为6，a至f每个字符的频率分别为：45, 13, 12, 16, 9, 5。
- 输出：每个字符对应的Huffman编码。
 """
 import numpy as np
 
@@ -45,36 +32,60 @@ class huff_man_tree:
         self.b = np.zeros(10, dtype=np.int)  # self.b用于保存每个叶子节点的Haffuman编码,range的值只需要不小于树的深度就行
 
     # 用递归的思想生成编码
-    def pre(self, tree, length):
+    def pre(self, tree, length, code):
         node = tree
+        s = ""
         if not node:
             return
         elif node._name:
-            print(node._name + '的编码为:', end='')
             for i in range(length):
-                print(self.b[i], end=' ')
-            print()
+                s = s+str(self.b[i])
+            code[node._name]=s
             return
         self.b[length] = 0
-        self.pre(node._left, length + 1)
+        self.pre(node._left, length + 1, code)
         self.b[length] = 1
-        self.pre(node._right, length + 1)
+        self.pre(node._right, length + 1, code)
 
     # 生成哈夫曼编码
     def get_code(self):
-        self.pre(self.root, 0)
+        code = {}
+        self.pre(self.root, 0, code)
+        code_name = sorted(code, key=lambda code: code[0])
+        for temp in code_name:
+            print(temp, end=' ')
+            print(code.get(temp))
+
 
 
 def main():
-    # 输入的是字符及其频数
+    """
+    【样例输入】
+     6
+     45 13 12 16 9 5
+    """
     ch = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n']
     char_weights = []
     n = int(input())
     weight = [int(i) for i in input().split()]
     for i in range(n):
         char_weights.append((ch[i], weight[i]))
+    """
+    【样例输出】
+    a 0
+    b 101
+    c 100
+    d 111
+    e 1101
+    f 1100
+    """
     tree = huff_man_tree(char_weights)
     tree.get_code()
+    """
+    【样例说明】
+     输入：字符个数为6，a至f每个字符的频率分别为：45, 13, 12, 16, 9, 5。
+     输出：每个字符对应的Huffman编码。
+    """
 
 
 if __name__ == '__main__':

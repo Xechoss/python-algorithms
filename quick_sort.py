@@ -1,11 +1,11 @@
 import numpy as np
 
 
-def quickSort(a, start, end):
+def quick_sort(a, start, end):
     if start < end:
         x = partition(a, start, end)
-        quickSort(a, start, x - 1)
-        quickSort(a, x + 1, end)
+        quick_sort(a, start, x - 1)
+        quick_sort(a, x + 1, end)
 
 
 def partition(a, p, q):
@@ -22,7 +22,7 @@ def partition(a, p, q):
 
 def main():
     a = [int(i) for i in input().split()]
-    quickSort(a, 0, len(a) - 1)
+    quick_sort(a, 0, len(a) - 1)
     print(np.array(a))
 
 

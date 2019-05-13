@@ -4,6 +4,73 @@
             使用最小堆数据结构构造优先队列。
 【输入形式】在屏幕上输入顶点个数和连接顶点间的边的权矩阵。
 【输出形式】从源到各个顶点的最短距离及路径。
+"""
+import numpy as np
+
+
+def dijkstra(n, v, dist, prev, c, s):
+    for i in range(n):
+        dist[i] = c[v][i]
+        s[i] = False
+        if dist[i] == 999:
+            prev[i] = 0
+        else:
+            prev[i] = v
+    dist[v] = 0
+    s[v] = True
+    for i in range(n-1):
+        temp = 999
+        u = v
+        for j in range(n):
+            if (not s[j]) and (dist[j] < temp):
+                u = j
+                temp = dist[j]
+            s[u] = True
+            for k in range(n):
+                if (not s[k]) and (c[u][k] < 999):
+                    new_dist = dist[u]+c[u][k]
+                    if new_dist < dist[k]:
+                        dist[k] = new_dist
+                        prev[k] = u
+
+    for i in range(n):
+        if i == v:
+            prev[i] = -1
+    for i in range(n):
+        if i != v:
+            print(str(dist[i])+': ', end='')
+            t = str(i+1)
+            j = i
+            while True:
+                if j == 0:
+                    break
+                t = t+'>-'+str(prev[j]+1)
+                j = prev[j]
+                m = list(t)
+                m.reverse()
+                result = "".join(m)
+            print(result)
+
+
+def main():
+    n = int(input())
+    c = np.zeros((n, n), dtype=np.int)
+    for i in range(n):
+        c[i, :] = np.array(input().split(), dtype=np.int)
+    for i in range(n):
+        for j in range(n):
+            if c[i][j] == 0:
+                c[i][j] = 999
+    dist = np.zeros(n, dtype=np.int)
+    s = np.zeros(n, np.bool)
+    prev = np.zeros(n, np.int)
+    dijkstra(n, 0, dist, prev, c, s)
+
+
+if __name__ == '__main__':
+    main()
+
+"""
 【样例输入】
 5
 0 10 0 30 100

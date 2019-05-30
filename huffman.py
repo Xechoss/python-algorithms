@@ -49,7 +49,6 @@ class huff_man_tree:
             for i in range(length):
                 s = s + str(self.b[i])
             code[node._name] = s  # 哈夫曼编码字典
-            return
         self.b[length] = 0
         self.set_code(node._left, length + 1, code)  # 递归左子树
         self.b[length] = 1

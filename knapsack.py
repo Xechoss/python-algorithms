@@ -18,7 +18,7 @@ def knapsack(v, w, c, n, m):
         for j in range(jm+1):
             m[i][j] = m[i+1][j]
         for k in range(w[i], c+1):
-            m[i][j] = max(m[i+1][j], m[i+1][c-w[i]]+v[i])
+            m[i][j] = max(m[i+1][j], m[i+1][j-w[i]]+v[i])
     m[1][c] = m[2][c]
     if c > w[1]:
         m[1][c] = max(m[1][c], m[2][c-w[1]]+v[1])
@@ -40,10 +40,10 @@ def traceback(m, w, c, n, x):
 def main():
     """
     【样例输入】
-     10
-     5
-     6 3 5 4 6
-     2 2 6 5 4
+10
+5
+6 3 5 4 6
+2 2 6 5 4
     """
     c = int(input())
     n = int(input())

@@ -1,7 +1,7 @@
 def partition(a, p, q, x):
     i = p-1
     for j in range(p, q):
-        if a[j] <= x:
+        if a[j] <= a[x-1]:
             i += 1
             a[i], a[j] = a[j], a[i]
     a[i+1], a[q] = a[q], a[i+1]

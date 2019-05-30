@@ -16,7 +16,7 @@ def lagran(x, w):
             if k == j:
                 continue
             fac = x[j] - x[k]
-            pt = np.polymul(pt, np.poly(x[k])) / fac
+            pt = np.polymul(pt, np.poly1d([1.0, -x[k]])) / fac
         lr[j, :] = pt
     w = np.array(w)
     c = w@lr
